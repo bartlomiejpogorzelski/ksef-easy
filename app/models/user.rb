@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   include Users::Base
   include Roles::User
+
+  has_many :memberships, dependent: :destroy
+  has_many :teams, through: :memberships
   # 🚅 add concerns above.
 
   # 🚅 add belongs_to associations above.

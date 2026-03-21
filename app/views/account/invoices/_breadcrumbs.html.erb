@@ -1,0 +1,8 @@
+<% invoice ||= @invoice %>
+<% team ||= @team || invoice&.team %>
+<%= render 'account/teams/breadcrumbs', team: team %>
+<%= render 'account/shared/breadcrumb', label: t('.label'), url: [:account, team, :invoices] %>
+<% if invoice&.persisted? %>
+  <%= render 'account/shared/breadcrumb', label: invoice.label_string, url: [:account, invoice] %>
+<% end %>
+<%= render 'account/shared/breadcrumbs/actions', only_for: 'invoices' %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_11_175505) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_21_182209) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -104,6 +104,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_175505) do
     t.bigint "invitation_list_id"
     t.index ["invitation_list_id"], name: "index_invitations_on_invitation_list_id"
     t.index ["team_id"], name: "index_invitations_on_team_id"
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.string "number"
+    t.date "issue_date"
+    t.date "sale_date"
+    t.date "payment_date"
+    t.integer "netto"
+    t.integer "vat_rate"
+    t.integer "vat"
+    t.integer "brutto"
+    t.string "status"
+    t.string "buyer_nip"
+    t.string "buyer_name"
+    t.string "seller"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_invoices_on_team_id"
   end
 
   create_table "memberships", id: :serial, force: :cascade do |t|
@@ -356,6 +376,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_175505) do
   add_foreign_key "integrations_stripe_installations", "teams"
   add_foreign_key "invitations", "account_onboarding_invitation_lists", column: "invitation_list_id"
   add_foreign_key "invitations", "teams"
+  add_foreign_key "invoices", "teams"
   add_foreign_key "memberships", "invitations"
   add_foreign_key "memberships", "memberships", column: "added_by_id"
   add_foreign_key "memberships", "oauth_applications", column: "platform_agent_of_id"

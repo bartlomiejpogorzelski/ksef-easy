@@ -1,0 +1,36 @@
+<% team = @team || @team %>
+<% context ||= team %>
+<% collection ||= :invoices %>
+<% hide_actions ||= false %>
+<% hide_back ||= false %>
+
+<% with_attribute_settings object: invoice do %>
+  <tr data-id="<%= invoice.id %>" class="group">
+    <%= render "shared/tables/checkbox", object: invoice %>
+    <td><%= render 'shared/attributes/text', attribute: :number, url: [:account, invoice] %></td>
+    <td><%= render 'shared/attributes/date', attribute: :issue_date %></td>
+    <td><%= render 'shared/attributes/date', attribute: :sale_date %></td>
+    <td><%= render 'shared/attributes/date', attribute: :payment_date %></td>
+    <td><%= render 'shared/attributes/number', attribute: :netto %></td>
+    <td><%= render 'shared/attributes/number', attribute: :vat_rate %></td>
+    <td><%= render 'shared/attributes/number', attribute: :vat %></td>
+    <td><%= render 'shared/attributes/number', attribute: :brutto %></td>
+    <td><%= render 'shared/attributes/text', attribute: :status %></td>
+    <td><%= render 'shared/attributes/text', attribute: :buyer_nip %></td>
+    <td><%= render 'shared/attributes/text', attribute: :buyer_name %></td>
+    <td><%= render 'shared/attributes/text', attribute: :seller %></td>
+    <%# 🚅 super scaffolding will insert new fields above this line. %>
+    <td><%= render 'shared/attributes/date_and_time', attribute: :created_at %></td>
+    <td class="buttons">
+      <% unless hide_actions %>
+        <% if can? :edit, invoice %>
+          <%= link_to t('.buttons.shorthand.edit'), [:edit, :account, invoice], class: 'button-secondary button-smaller' %>
+        <% end %>
+        <% if can? :destroy, invoice %>
+          <%= button_to t('.buttons.shorthand.destroy'), [:account, invoice], method: :delete, data: { turbo_confirm: t('.buttons.confirmations.destroy', model_locales(invoice)) }, class: 'button-secondary button-smaller' %>
+        <% end %>
+        <%# 🚅 super scaffolding will insert new action model buttons above this line. %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
