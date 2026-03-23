@@ -1,9 +1,9 @@
 class Invoice < ApplicationRecord
+  belongs_to :team
   # 🚅 add concerns above.
 
   # 🚅 add attribute accessors above.
 
-  belongs_to :team
   # 🚅 add belongs_to associations above.
 
   # 🚅 add has_many associations above.
