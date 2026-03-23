@@ -72,6 +72,12 @@ group :development, :test do
   # In CI we use parallel tests to help increase test speed while keeping the number of
   # test runners down. You can tweak the workflow to adjust your parallelism as needed.
   gem "parallel_tests"
+  # A great debugger.
+  gem "pry"
+  gem "rspec-rails", "~> 7.0"
+  gem "shoulda-matchers", "~> 6.0"
+  gem "faker"
+  gem "database_cleaner-active_record" 
 end
 
 group :development do
@@ -91,6 +97,27 @@ group :development do
   # Generate a diagram of all the models in the app by running:
   # bundle exec erd
   gem "rails-erd"
+
+  # Open any sent emails in your browser instead of having to setup an SMTP trap.
+  gem "letter_opener"
+
+  # Ruby formatter. Try `standardrb --fix`.
+  gem "standard"
+
+  # Similar to standard for correcting format.
+  gem "rails_best_practices"
+
+  # Rails doesn't include this by default, but we depend on it.
+  gem "foreman"
+
+  # For colorizing text in command line scripts.
+  gem "colorize"
+
+  # derailed_benchmarks and stackprof are used to find opportunities for performance/memory improvements
+  # See the derailed_benchmarks docs for details: https://github.com/zombocom/derailed_benchmarks
+  gem "derailed_benchmarks"
+  # stackprof has some native components and it may be harder to compile locally, so we leave it as optional
+  # gem "stackprof"
 end
 
 group :test do
@@ -110,6 +137,22 @@ group :test do
   gem "selenium-webdriver"
 
   # gem "cuprite"
+  # Helps smooth over flakiness in system tests.
+  gem "minitest-retry"
+
+  # Better test output
+  gem "minitest-reporters"
+
+  # Interact with emails during testing.
+  gem "capybara-email"
+
+  # Write system tests by pointing and clicking in your browser.
+  gem "magic_test"
+
+  # Increase parallelism to run CI tests across multiple nodes
+  # Note: You need to ensure that ENV["KNAPSACK_PRO_CI_NODE_INDEX"] is set if you want to use this.
+  # See test/test_helper.rb for additional context around that env var.
+  gem "knapsack_pro"
 end
 
 # BULLET TRAIN GEMS
@@ -159,53 +202,6 @@ gem "rack-cors"
 
 # Easy and automatic inline CSS for mailers
 gem "premailer-rails"
-
-group :development do
-  # Open any sent emails in your browser instead of having to setup an SMTP trap.
-  gem "letter_opener"
-
-  # Ruby formatter. Try `standardrb --fix`.
-  gem "standard"
-
-  # Similar to standard for correcting format.
-  gem "rails_best_practices"
-
-  # Rails doesn't include this by default, but we depend on it.
-  gem "foreman"
-
-  # For colorizing text in command line scripts.
-  gem "colorize"
-
-  # derailed_benchmarks and stackprof are used to find opportunities for performance/memory improvements
-  # See the derailed_benchmarks docs for details: https://github.com/zombocom/derailed_benchmarks
-  gem "derailed_benchmarks"
-  # stackprof has some native components and it may be harder to compile locally, so we leave it as optional
-  # gem "stackprof"
-end
-
-group :test do
-  # Helps smooth over flakiness in system tests.
-  gem "minitest-retry"
-
-  # Better test output
-  gem "minitest-reporters"
-
-  # Interact with emails during testing.
-  gem "capybara-email"
-
-  # Write system tests by pointing and clicking in your browser.
-  gem "magic_test"
-
-  # Increase parallelism to run CI tests across multiple nodes
-  # Note: You need to ensure that ENV["KNAPSACK_PRO_CI_NODE_INDEX"] is set if you want to use this.
-  # See test/test_helper.rb for additional context around that env var.
-  gem "knapsack_pro"
-end
-
-group :development, :test do
-  # A great debugger.
-  gem "pry"
-end
 
 group :production do
   # We suggest using Postmark for email deliverability.
