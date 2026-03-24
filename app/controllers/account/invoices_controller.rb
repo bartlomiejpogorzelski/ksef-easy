@@ -69,6 +69,9 @@ class Account::InvoicesController < Account::ApplicationController
     assign_date(strong_params, :issue_date)
     assign_date(strong_params, :sale_date)
     assign_date(strong_params, :payment_date)
+
+    strong_params[:document] = params[:invoice][:document] if params[:invoice][:document]
+
     # 🚅 super scaffolding will insert processing for new fields above this line.
   end
 end

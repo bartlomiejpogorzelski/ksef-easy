@@ -77,7 +77,7 @@ group :development, :test do
   gem "rspec-rails", "~> 7.0"
   gem "shoulda-matchers", "~> 6.0"
   gem "faker"
-  gem "database_cleaner-active_record" 
+  gem "database_cleaner-active_record"
 end
 
 group :development do
