@@ -7,7 +7,7 @@ class Invoice < ApplicationRecord
   # 🚅 add belongs_to associations above.
 
   # 🚅 add has_many associations above.
-
+  has_one_attached :document
   # 🚅 add has_one associations above.
 
   # 🚅 add scopes above.

@@ -1,6 +1,10 @@
 <% cancel_path ||= invoice.persisted? ? [:account, invoice] : [:account, @team, :invoices] %>
 
-<%= form_with model: invoice, url: (invoice.persisted? ? [:account, invoice] : [:account, @team, :invoices]), class: 'form' do |form| %>
+<%= form_with(model: invoice, 
+              url: (invoice.persisted? ? [:account, invoice] : [:account, @team, :invoices]), 
+              class: 'form',
+              html: { enctype: "multipart/form-data" }) do |form| %>
+
   <%= render "shared/limits/form", form: form, cancel_path: cancel_path do %>
     <%= render 'account/shared/forms/errors', form: form %>
 
@@ -21,9 +25,47 @@
       <%# 🚅 super scaffolding will insert new fields above this line. %>
     <% end %>
 
-    <div class="buttons">
+    <!-- === Upload === -->
+    <div class="mt-8 pt-6 border-t border-gray-200" data-controller="file-preview">
+      <%= form.label :document, "Załącz skan lub zdjęcie faktury", class: "block text-sm font-medium text-gray-700 mb-2" %>
+
+      <label for="invoice_document" class="cursor-pointer block">
+        <div class="mt-1 flex justify-center rounded-lg border border-dashed border-gray-300 px-6 py-10 hover:border-indigo-500 hover:bg-gray-50 transition-colors">
+          <div class="text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903 5 5 0 0110.025 1.126 5.25 5.25 0 01.88 9.777" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 12v4m0 0l-3-3m3 3l3-3" />
+            </svg>
+
+            <div class="mt-4">
+              <span data-file-preview-target="display" class="text-sm font-medium text-gray-700">
+                Kliknij lub przeciągnij plik tutaj
+              </span>
+            </div>
+
+            <p class="text-xs text-gray-500 mt-2">PNG, JPG, PDF (maks. 10 MB)</p>
+          </div>
+        </div>
+      </label>
+
+      <%= form.file_field :document, 
+                          id: "invoice_document", 
+                          class: "hidden", 
+                          accept: "image/*,.pdf",
+                          data: { action: "file-preview#updateDisplay" } %>
+
+      <% if @invoice.document.attached? %>
+        <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-md text-sm text-green-700">
+          ✓ Aktualny plik: <strong><%= @invoice.document.filename %></strong> 
+          (<%= number_to_human_size(@invoice.document.byte_size) %>)
+        </div>
+      <% end %>
+    </div>
+
+    <div class="buttons mt-8">
       <%= form.submit (form.object.persisted? ? t('.buttons.update') : t('.buttons.create')), class: "button" %>
       <%= link_to t('global.buttons.cancel'), cancel_path, class: "button-secondary" %>
     </div>
+
   <% end %>
 <% end %>
