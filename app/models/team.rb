@@ -1,6 +1,7 @@
 class Team < ApplicationRecord
   include Teams::Base
   include Webhooks::Outgoing::TeamSupport
+
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
 
