@@ -1,0 +1,14 @@
+pl:
+  application:
+    name: ksef-easy
+    owner: Unidentified Developer
+    description: "You can update this description in `config/locales/en/application.en.yml`."
+    keywords: ksef-easy seo keywords
+    support_email: change.me@localhost
+    key: ksef_easy
+  webhooks/outgoing/endpoints:
+    fields:
+      api_version:
+        options:
+          1: V1
+          # 🚅 super scaffolding will insert new api versions above this line.

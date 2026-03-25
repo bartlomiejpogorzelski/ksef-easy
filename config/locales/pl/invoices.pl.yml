@@ -1,0 +1,176 @@
+pl:
+  invoices: &invoices
+    label: &label Faktury
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-puzzle-piece
+    buttons: &buttons
+      new: Dodaj Nową Fakturę
+      create: Utwórz Fakturę
+      edit: Edytuj Fakturę
+      update: Update Fakturę
+      destroy: Usuń Fakturę
+      shorthand:
+        edit: Edytuj
+        destroy: Usuń
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove %{invoice_name}? This will also remove any child resources and can't be undone.
+    invoice:
+      buttons: *buttons
+    fields: &fields
+      id:
+        heading: Faktura ID
+      team_id:
+        heading: Team ID
+      number:
+        _: &number Numer
+        label: *number
+        heading: *number
+        api_title: *number
+        api_description: *number
+      issue_date:
+        _: &issue_date Issue Date
+        label: *issue_date
+        heading: *issue_date
+        api_title: *issue_date
+        api_description: *issue_date
+      sale_date:
+        _: &sale_date Sale Date
+        label: *sale_date
+        heading: *sale_date
+        api_title: *sale_date
+        api_description: *sale_date
+      payment_date:
+        _: &payment_date Payment Date
+        label: *payment_date
+        heading: *payment_date
+        api_title: *payment_date
+        api_description: *payment_date
+      netto:
+        _: &netto Netto
+        label: *netto
+        heading: *netto
+        api_title: *netto
+        api_description: *netto
+      vat_rate:
+        _: &vat_rate Vat Rate
+        label: *vat_rate
+        heading: *vat_rate
+        api_title: *vat_rate
+        api_description: *vat_rate
+      vat:
+        _: &vat Vat
+        label: *vat
+        heading: *vat
+        api_title: *vat
+        api_description: *vat
+      brutto:
+        _: &brutto Brutto
+        label: *brutto
+        heading: *brutto
+        api_title: *brutto
+        api_description: *brutto
+      status:
+        _: &status Status
+        label: *status
+        heading: *status
+        api_title: *status
+        api_description: *status
+      buyer_nip:
+        _: &buyer_nip Buyer Nip
+        label: *buyer_nip
+        heading: *buyer_nip
+        api_title: *buyer_nip
+        api_description: *buyer_nip
+      buyer_name:
+        _: &buyer_name Buyer Name
+        label: *buyer_name
+        heading: *buyer_name
+        api_title: *buyer_name
+        api_description: *buyer_name
+      seller:
+        _: &seller Sprzedawca
+        label: *seller
+        heading: *seller
+        api_title: *seller
+        api_description: *seller
+      description:
+        _: &description Opis
+        label: *description
+        heading: *description
+        api_title: *description
+        api_description: *description
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Dodano
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Invoices"
+      index: "List Invoices"
+      create: "Add a New Invoice"
+      member_actions: "Actions for an Individual Invoice"
+      show: "Retrieve a Invoice"
+      update: "Update a Invoice"
+      destroy: "Delete a Invoice"
+      fields: *fields
+    index:
+      section: "%{teams_possessive} Invoices"
+      contexts:
+        team:
+          header: Faktury
+          description: Below is a list of Invoices that have been added for %{team_name}.
+          description_empty: No Invoices have been added for %{team_name}.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{invoice_name}"
+      header: Invoice Details
+      description: Below are the details we have for %{invoice_name}.
+      manage_description: You'll also find options for updating these details or removing %{invoice_name} from %{team_name} entirely.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "New Invoice for %{team_name}"
+      header: New Invoice Details
+      description: Please provide the details of the new Invoice you'd like to add to %{team_name}.
+      form: *form
+    edit:
+      section: "%{invoice_name}"
+      header: Edit Invoice Details
+      description: You can update the details or settings for %{invoice_name} below.
+      form: *form
+    notifications:
+      created: Invoice was successfully created.
+      updated: Invoice was successfully updated.
+      destroyed: Invoice was successfully destroyed.
+  account:
+    invoices: *invoices
+  activerecord:
+    attributes:
+      invoice:
+        number: *number
+        issue_date: *issue_date
+        sale_date: *sale_date
+        payment_date: *payment_date
+        netto: *netto
+        vat_rate: *vat_rate
+        vat: *vat
+        brutto: *brutto
+        status: *status
+        buyer_nip: *buyer_nip
+        buyer_name: *buyer_name
+        seller: *seller
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        created_at: *created_at
+        updated_at: *updated_at
