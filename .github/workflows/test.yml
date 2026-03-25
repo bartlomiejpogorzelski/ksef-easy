@@ -45,29 +45,34 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Setup Node.js + Yarn 4 via Corepack
+      # ====================== YARN 4 + COREPACK ======================
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: 'yarn'
 
-      - name: Enable Corepack and prepare Yarn 4
+      - name: Enable Corepack and force Yarn 4.2.2
         run: |
           corepack enable
           corepack prepare yarn@4.2.2 --activate
           yarn set version 4.2.2
+          echo "Yarn version: $(yarn --version)"
         shell: bash
 
-      - name: Install JS dependencies
+      - name: Install JavaScript dependencies
         run: yarn install --immutable
 
+      # ====================== BUILD ======================
       - name: Build assets
         run: |
           yarn build
           yarn build:css
 
+      # ====================== DATABASE ======================
       - name: Setup database
         run: bin/rails db:create db:schema:load
 
+      # ====================== TESTS ======================
       - name: Run tests
         run: bundle exec rails test
