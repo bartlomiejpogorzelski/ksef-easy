@@ -1,10 +1,13 @@
 en:
   teams:
     fields:
-      _:
-      # 🚅 super scaffolding will insert new fields above this line.
+      locale:
+        label: "Language"
+        options:
+          en: "English"
+          pl: "Polish"
+
   activerecord:
     attributes:
       team:
-        _:
-        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        locale: "Language"

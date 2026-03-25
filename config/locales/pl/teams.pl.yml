@@ -1,10 +1,34 @@
-en:
+pl:
   teams:
+    name: "Zespół"
+    label: "Zespół"
+
     fields:
-      _:
-      # 🚅 super scaffolding will insert new fields above this line.
+      name: "Nazwa zespołu"
+      slug: "Slug (adres)"
+      time_zone: "Strefa czasowa"
+      locale: "Język"
+      options:
+        en: "Angielski"
+        pl: "Polski"
+
+    buttons:
+      create: "Utwórz zespół"
+      update: "Zaktualizuj zespół"
+      destroy: "Usuń zespół"
+
+    notifications:
+      created: "Zespół został pomyślnie utworzony."
+      updated: "Zespół został pomyślnie zaktualizowany."
+      destroyed: "Zespół został pomyślnie usunięty."
+
   activerecord:
+    models:
+      team: "Zespół"
+
     attributes:
       team:
-        _:
-        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        name: "Nazwa zespołu"
+        slug: "Slug (adres)"
+        time_zone: "Strefa czasowa"
+        locale: "Język"
