@@ -1,5 +1,12 @@
 # ksef-easy
 
+KSeF Easy to proste i intuicyjne narzędzie webowe przeznaczone głównie dla jednoosobowych działalności gospodarczych oraz małych sprzedawców internetowych.
+Głównym celem aplikacji jest znaczne ułatwienie procesu wystawiania i wysyłania faktur ustrukturyzowanych do Krajowego Systemu e-Faktur (KSeF).
+
+
+KSeF Easy is a simple and intuitive web application designed primarily for sole proprietors and small online sellers.
+The main goal of the application is to significantly simplify the process of issuing and sending structured invoices to the Polish National e-Invoice System (KSeF).
+
 ## Getting Started
 
 1. You must have the following dependencies installed:
