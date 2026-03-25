@@ -37,21 +37,25 @@ jobs:
       POSTGRES_PASSWORD: password
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
 
-      - name: Setup Node
+      - name: Setup Node.js with Corepack (Yarn 4)
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: 'yarn'
 
-      - name: Install JS dependencies
-        run: yarn install
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install JavaScript dependencies
+        run: yarn install --immutable
 
       - name: Build assets
         run: |
