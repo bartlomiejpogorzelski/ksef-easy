@@ -28,9 +28,9 @@ module KsefEasy
 
     # See `config/locales/locales.yml` for a list of available locales.
     config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}")]
-    config.i18n.available_locales = YAML.safe_load_file("config/locales/locales.yml", aliases: true).with_indifferent_access.dig(:locales).keys.map(&:to_sym)
-    config.i18n.default_locale = config.i18n.available_locales.first
-    config.i18n.fallbacks = [:en]
+    config.i18n.available_locales = [:pl, :en]
+    config.i18n.default_locale = :pl
+    config.i18n.fallbacks = [:pl, :en]
 
     BulletTrain::Api.set_configuration(self)
   end
