@@ -45,16 +45,16 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Setup Node.js with Corepack (Yarn 4)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: 'yarn'
 
-      - name: Enable Corepack
+      - name: Enable Corepack (Yarn 4)
         run: corepack enable
 
-      - name: Install JavaScript dependencies
+      - name: Install JS dependencies
         run: yarn install --immutable
 
       - name: Build assets
