@@ -32,7 +32,7 @@ jobs:
           # You can explicitly set the number of test nodes, or it will default to 4
           numberOfTestNodes: 1
           # You can explicitly set the number of runners per node, or it will default to 4 for public repos and 2 for private
-          # testRunnersPerNode: 2
+          testRunnersPerNode: 1
 
   test:
     name: "🧪"
@@ -166,15 +166,9 @@ jobs:
         env:
           AUTH_ENDPOINT: https://no-site.nowhere
           AWS_REGION: us-east-1
-          PARALLEL_TESTS_RECORD_RUNTIME: true
+          # PARALLEL_TESTS_RECORD_RUNTIME: true
         run: |
-          bundle exec parallel_test test \
-          -n ${{ fromJson(needs.calculate_matrix.outputs.totalRunners) }} \
-          --only-group ${{ matrix.parallel_test_groups }} \
-          --group-by runtime \
-          --allowed-missing 100 \
-          --verbose \
-          --verbose-command
+          bundle exec rails test
         working-directory: tmp/starter
         continue-on-error: false
         shell: bash
