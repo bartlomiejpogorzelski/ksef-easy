@@ -5,7 +5,7 @@ class Api::OpenApiControllerTest < Api::Test
   setup do
     Rails.application.eager_load!
   end
-# Temporarily disabled because of OpenAPI warnings with the new Invoice model
+  # Temporarily disabled because of OpenAPI warnings with the new Invoice model
   # test "OpenAPI document is valid" do
   #   get api_path(version: "v1")
 
