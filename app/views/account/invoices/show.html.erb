@@ -15,10 +15,10 @@
             <%= render 'shared/attributes/date', attribute: :issue_date %>
             <%= render 'shared/attributes/date', attribute: :sale_date %>
             <%= render 'shared/attributes/date', attribute: :payment_date %>
-            <%= render 'shared/attributes/number', attribute: :netto %>
-            <%= render 'shared/attributes/number', attribute: :vat_rate %>
-            <%= render 'shared/attributes/number', attribute: :vat %>
-            <%= render 'shared/attributes/number', attribute: :brutto %>
+            <%= render 'shared/attributes/text', attribute: :netto, value: format_money(@invoice.netto) %>
+            <%= render 'shared/attributes/text', attribute: :vat_rate, value: "#{@invoice.vat_rate}%" %>
+            <%= render 'shared/attributes/text', attribute: :vat, value: format_money(@invoice.vat) %>
+            <%= render 'shared/attributes/text', attribute: :brutto, value: format_money(@invoice.brutto) %>
             <%= render 'shared/attributes/text', attribute: :status %>
             <%= render 'shared/attributes/text', attribute: :buyer_nip %>
             <%= render 'shared/attributes/text', attribute: :buyer_name %>
