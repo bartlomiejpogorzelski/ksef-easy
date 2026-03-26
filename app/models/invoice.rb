@@ -20,4 +20,11 @@ class Invoice < ApplicationRecord
   # 🚅 add delegations above.
 
   # 🚅 add methods above.
+  enum :status, {
+    draft: "draft",
+    sent: "sent",
+    paid: "paid",
+    overdue: "overdue",
+    rejected: "rejected"
+  }, prefix: true
 end
