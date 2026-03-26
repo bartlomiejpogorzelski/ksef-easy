@@ -13,10 +13,10 @@
       <%= render 'shared/fields/date_field', method: :issue_date %>
       <%= render 'shared/fields/date_field', method: :sale_date %>
       <%= render 'shared/fields/date_field', method: :payment_date %>
-      <%= render 'shared/fields/number_field', method: :netto %>
-      <%= render 'shared/fields/number_field', method: :vat_rate %>
-      <%= render 'shared/fields/number_field', method: :vat %>
-      <%= render 'shared/fields/number_field', method: :brutto %>
+      <%= render 'shared/fields/number_field', method: :netto, options: { step: "0.01" } %>
+      <%= render 'shared/fields/number_field', method: :vat_rate, options: { step: "1", min: "0", max: "100" } %>
+      <%= render 'shared/fields/number_field', method: :vat, options: { step: "0.01" } %>
+      <%= render 'shared/fields/number_field', method: :brutto, options: { step: "0.01" } %>
       <%= render 'shared/fields/text_field', method: :status %>
       <%= render 'shared/fields/text_field', method: :buyer_nip %>
       <%= render 'shared/fields/text_field', method: :buyer_name %>
