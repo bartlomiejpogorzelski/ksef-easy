@@ -10,22 +10,72 @@
         <% end %>
 
         <% box.body do %>
-          <% with_attribute_settings object: @invoice, strategy: :label do %>
-            <%= render 'shared/attributes/text', attribute: :number %>
-            <%= render 'shared/attributes/date', attribute: :issue_date %>
-            <%= render 'shared/attributes/date', attribute: :sale_date %>
-            <%= render 'shared/attributes/date', attribute: :payment_date %>
-            <%= render 'shared/attributes/text', attribute: :netto, value: format_money(@invoice.netto) %>
-            <%= render 'shared/attributes/text', attribute: :vat_rate, value: "#{@invoice.vat_rate}%" %>
-            <%= render 'shared/attributes/text', attribute: :vat, value: format_money(@invoice.vat) %>
-            <%= render 'shared/attributes/text', attribute: :brutto, value: format_money(@invoice.brutto) %>
-            <%= render 'shared/attributes/text', attribute: :status %>
-            <%= render 'shared/attributes/text', attribute: :buyer_nip %>
-            <%= render 'shared/attributes/text', attribute: :buyer_name %>
-            <%= render 'shared/attributes/text', attribute: :seller %>
-            <%= render 'shared/attributes/text', attribute: :description %>
-            <%# 🚅 super scaffolding will insert new fields above this line. %>
-          <% end %>
+          <div class="space-y-6">
+            <div>
+              <div class="text-sm font-medium text-gray-500">Numer faktury</div>
+              <div class="mt-1 text-lg font-semibold"><%= @invoice.number %></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-x-8 gap-y-6">
+              <div>
+                <div class="text-sm font-medium text-gray-500">Data wystawienia</div>
+                <div class="mt-1"><%= l(@invoice.issue_date) if @invoice.issue_date %></div>
+              </div>
+              <div>
+                <div class="text-sm font-medium text-gray-500">Data sprzedaży</div>
+                <div class="mt-1"><%= l(@invoice.sale_date) if @invoice.sale_date %></div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-x-8 gap-y-6">
+              <div>
+                <div class="text-sm font-medium text-gray-500">Netto</div>
+                <div class="mt-1 text-lg font-semibold text-green-600"><%= format_money(@invoice.netto) %></div>
+              </div>
+              <div>
+                <div class="text-sm font-medium text-gray-500">Stawka VAT</div>
+                <div class="mt-1 text-lg font-semibold"><%= @invoice.vat_rate %> %</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-x-8 gap-y-6">
+              <div>
+                <div class="text-sm font-medium text-gray-500">VAT</div>
+                <div class="mt-1 text-lg font-semibold text-green-600"><%= format_money(@invoice.vat) %></div>
+              </div>
+              <div>
+                <div class="text-sm font-medium text-gray-500">Brutto</div>
+                <div class="mt-1 text-lg font-semibold text-green-600"><%= format_money(@invoice.brutto) %></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="text-sm font-medium text-gray-500">Status</div>
+              <div class="mt-1 font-medium"><%= @invoice.status %></div>
+            </div>
+
+            <div>
+              <div class="text-sm font-medium text-gray-500">NIP nabywcy</div>
+              <div class="mt-1"><%= @invoice.buyer_nip %></div>
+            </div>
+
+            <div>
+              <div class="text-sm font-medium text-gray-500">Nazwa nabywcy</div>
+              <div class="mt-1"><%= @invoice.buyer_name %></div>
+            </div>
+
+            <div>
+              <div class="text-sm font-medium text-gray-500">Sprzedawca</div>
+              <div class="mt-1"><%= @invoice.seller %></div>
+            </div>
+
+            <% if @invoice.description.present? %>
+            <div>
+              <div class="text-sm font-medium text-gray-500">Opis</div>
+              <div class="mt-1 text-gray-700"><%= @invoice.description %></div>
+            </div>
+            <% end %>
+          </div>          
 
           <!-- === Attachment to inovice === -->
           <% if @invoice.document.attached? %>
