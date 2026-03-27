@@ -74,11 +74,16 @@ en:
         api_title: *brutto
         api_description: *brutto
       status:
-        _: &status Status
+        _: &status Invoice Status
         label: *status
         heading: *status
         api_title: *status
         api_description: *status
+        draft: draft
+        sent: sent
+        paid: paid
+        overdue: overdue
+        rejected: rejected
       buyer_nip:
         _: &buyer_nip Buyer Nip
         label: *buyer_nip
@@ -112,6 +117,18 @@ en:
         _: &updated_at Updated
         label: *updated_at
         heading: *updated_at
+      status_prompt:
+        _: &status_prompt Choose status
+        label: *status_prompt
+        heading: *status_prompt
+        api_title: *status_prompt
+        api_description: *status_prompt
+      vat_rate_prompt:
+        _: &vat_rate_prompt Choose vat rate
+        label: *vat_rate_prompt
+        heading: *vat_rate_prompt
+        api_title: *vat_rate_prompt
+        api_description: *vat_rate_prompt
     api:
       collection_actions: "Collection Actions for Invoices"
       index: "List Invoices"
@@ -140,6 +157,8 @@ en:
     form: &form
       buttons: *buttons
       fields: *fields
+      vat_rate_prompt: *vat_rate_prompt
+      status_prompt: *status_prompt
     new:
       section: "New Invoice for %{team_name}"
       header: New Invoice Details
