@@ -15,7 +15,6 @@ class Account::Settings::KsefController < ApplicationController
                   notice: "Ustawienia KSeF zostały pomyślnie zapisane."
     else
       Rails.logger.error "KSeF Setting errors: #{@ksef_setting.errors.full_messages}"
-      flash.now[:alert] = "Nie udało się zapisać ustawień. Sprawdź błędy poniżej."
       render :edit, status: :unprocessable_entity
     end
   end

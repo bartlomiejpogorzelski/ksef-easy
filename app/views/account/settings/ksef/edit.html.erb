@@ -2,6 +2,17 @@
 
 <%= render "shared/flash" %>
 
+<% if @ksef_setting.errors.any? %>
+  <div class="bg-red-50 border border-red-200 text-red-800 px-6 py-4 rounded-2xl mb-8">
+    <h3 class="font-medium mb-2">Nie udało się zapisać ustawień KSeF:</h3>
+    <ul class="list-disc pl-5 space-y-1">
+      <% @ksef_setting.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <div class="max-w-2xl mx-auto py-10">
   <div class="mb-10">
     <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Ustawienia KSeF</h1>
