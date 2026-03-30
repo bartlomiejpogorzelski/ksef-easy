@@ -7,4 +7,15 @@ class KsefSetting < ApplicationRecord
   validates :token, presence: true, if: -> { environment == "production" } # token wymagany w prod
 
   enum :environment, { test: "test", production: "production" }, suffix: true
+
+  def masked_token
+    return "" if token.blank?
+    return token if token.length <= 12
+
+    "••••••••••••" + token.last(8)
+  end
+
+  def token_present?
+    token.present?
+  end
 end
