@@ -1,4 +1,5 @@
 class Account::Settings::KsefController < ApplicationController
+  helper Account::Settings::KsefHelper
   before_action :authenticate_user!
 
   def edit

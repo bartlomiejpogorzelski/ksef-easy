@@ -47,10 +47,11 @@
       <div data-controller="ksef-token">
         <%= f.label :token, "Token autoryzacyjny KSeF", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
 
-        <% if @ksef_setting.token_present? %>
+        <% if ksef_configured? %>
+          <!-- Token już zapisany -->
           <div class="flex gap-3 items-end" data-ksef-token-target="maskedRow">
             <%= f.text_field :token, 
-                            value: @ksef_setting.masked_token,
+                            value: current_ksef_setting.masked_token,
                             class: "input w-full font-mono text-sm bg-gray-50",
                             readonly: true %>
 
@@ -72,6 +73,7 @@
             </p>
           </div>
         <% else %>
+          <!-- Pierwszy raz – pełne pole -->
           <%= f.text_area :token,
                           rows: 5,
                           class: "input w-full font-mono text-sm resize-y min-h-[120px]",
