@@ -59,6 +59,11 @@
                           type: "button", 
                           data: { action: "click->ksef-token#changeToken" },
                           class: "btn btn-secondary whitespace-nowrap px-5" %>
+            <%= button_tag "Testuj token", 
+                          type: "button", 
+                          data: { action: "click->ksef-token#testToken",
+                                ksef_token_target: "testButton" },
+                          class: "btn btn-primary whitespace-nowrap px-5" %>
           </div>
 
           <!-- Pole do nowego tokenu -->
