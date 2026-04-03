@@ -75,6 +75,11 @@ Rails.application.routes.draw do
 
         resources :invoices
       end
+      get   '/settings/ksef', to: 'settings/ksef#edit',   as: :ksef_settings
+      patch '/settings/ksef', to: 'settings/ksef#update'
+      put   '/settings/ksef', to: 'settings/ksef#update'
+
+      post  '/settings/ksef/test_token', to: 'settings/ksef#test_token', as: :test_ksef_token
     end
   end
 end

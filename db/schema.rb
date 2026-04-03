@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_21_182209) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_152430) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -124,6 +124,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_182209) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_invoices_on_team_id"
+  end
+
+  create_table "ksef_settings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "team_id"
+    t.string "nip", limit: 10, null: false
+    t.string "environment", default: "test", null: false
+    t.text "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nip"], name: "index_ksef_settings_on_nip"
+    t.index ["team_id"], name: "index_ksef_settings_on_team_id"
+    t.index ["user_id", "team_id"], name: "index_ksef_settings_on_user_id_and_team_id", unique: true
+    t.index ["user_id"], name: "index_ksef_settings_on_user_id"
   end
 
   create_table "memberships", id: :serial, force: :cascade do |t|
@@ -377,6 +391,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_182209) do
   add_foreign_key "invitations", "account_onboarding_invitation_lists", column: "invitation_list_id"
   add_foreign_key "invitations", "teams"
   add_foreign_key "invoices", "teams"
+  add_foreign_key "ksef_settings", "teams"
+  add_foreign_key "ksef_settings", "users"
   add_foreign_key "memberships", "invitations"
   add_foreign_key "memberships", "memberships", column: "added_by_id"
   add_foreign_key "memberships", "oauth_applications", column: "platform_agent_of_id"

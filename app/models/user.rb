@@ -4,6 +4,10 @@ class User < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_many :teams, through: :memberships
+  has_one :ksef_setting, dependent: :destroy
+
+  accepts_nested_attributes_for :ksef_setting, update_only: true
+
   # 🚅 add concerns above.
 
   # 🚅 add belongs_to associations above.
