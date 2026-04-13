@@ -1,0 +1,97 @@
+<% content_for :title, "Ustawienia KSeF" %>
+
+<%= render "shared/flash" %>
+
+<% if @ksef_setting.errors.any? %>
+  <div class="bg-red-50 border border-red-200 text-red-800 px-6 py-4 rounded-2xl mb-8">
+    <h3 class="font-medium mb-2">Nie udało się zapisać ustawień KSeF:</h3>
+    <ul class="list-disc pl-5 space-y-1">
+      <% @ksef_setting.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="max-w-2xl mx-auto py-10">
+  <div class="mb-10">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Ustawienia KSeF</h1>
+    <p class="text-gray-600 mt-2">Konfiguracja połączenia z Krajowym Systemem e-Faktur</p>
+  </div>
+
+  <%= form_with model: @ksef_setting,
+                url: account_settings_ksef_path,
+                method: :patch,
+                class: "space-y-8" do |f| %>
+
+    <div class="bg-white shadow-sm ring-1 ring-inset ring-gray-900/5 rounded-3xl p-8 space-y-6">
+
+      <!-- NIP -->
+      <div>
+        <%= f.label :nip, "NIP firmy", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+        <%= f.text_field :nip, maxlength: 10, class: "input w-full", placeholder: "1234567890" %>
+        <p class="mt-1 text-xs text-gray-500">Dokładnie 10 cyfr, bez spacji i myślników</p>
+      </div>
+
+      <!-- Środowisko -->
+      <div>
+        <%= f.label :environment, "Środowisko KSeF", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+        <%= f.select :environment,
+                     [["Testowe (zalecane podczas rozwoju)", "test"],
+                      ["Produkcyjne", "production"]],
+                     {},
+                     class: "input w-full" %>
+      </div>
+
+      <!-- Token -->
+      <div data-controller="ksef-token">
+        <%= f.label :token, "Token autoryzacyjny KSeF", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+
+        <% if ksef_configured? %>
+          <!-- Token już zapisany -->
+          <div class="flex gap-3 items-end" data-ksef-token-target="maskedRow">
+            <%= f.text_field :token, 
+                            value: current_ksef_setting.masked_token,
+                            class: "input w-full font-mono text-sm bg-gray-50",
+                            readonly: true %>
+
+            <%= button_tag "Zmień token", 
+                          type: "button", 
+                          data: { action: "click->ksef-token#changeToken" },
+                          class: "btn btn-secondary whitespace-nowrap px-5" %>
+            <%= button_tag "Testuj token", 
+                          type: "button", 
+                          data: { action: "click->ksef-token#testToken",
+                                ksef_token_target: "testButton" },
+                          class: "btn btn-primary whitespace-nowrap px-5" %>
+          </div>
+
+          <!-- Pole do nowego tokenu -->
+          <div class="hidden mt-4" data-ksef-token-target="newTokenField">
+            <%= f.label :token, "Nowy token autoryzacyjny KSeF", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+            <%= f.text_area :token,
+                            rows: 5,
+                            class: "input w-full font-mono text-sm resize-y min-h-[120px]",
+                            placeholder: "Wklej nowy token tutaj..." %>
+            <p class="text-xs text-gray-500 mt-1">
+              Wklej nowy token. Poprzedni token zostanie nadpisany.
+            </p>
+          </div>
+        <% else %>
+          <!-- Pierwszy raz – pełne pole -->
+          <%= f.text_area :token,
+                          rows: 5,
+                          class: "input w-full font-mono text-sm resize-y min-h-[120px]",
+                          placeholder: "Wklej token wygenerowany w portalu KSeF..." %>
+        <% end %>
+
+        <p class="mt-1 text-xs text-amber-600">
+          Token jest poufny. Nigdy nie udostępniaj go nikomu.
+        </p>
+      </div>
+    <div class="flex justify-end gap-x-4">
+      <%= link_to "Anuluj", :back, class: "btn btn-secondary px-6" %>
+      <%= f.submit "Zapisz ustawienia KSeF", class: "btn btn-primary px-8" %>
+    </div>
+  <% end %>
+</div>
