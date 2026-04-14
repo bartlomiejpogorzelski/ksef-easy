@@ -309,6 +309,8 @@ GEM
       multipart-post (~> 2.0)
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
+    faraday-retry (2.4.0)
+      faraday (~> 2.0)
     fastimage (2.4.1)
     ffi (1.17.3-aarch64-linux-gnu)
     ffi (1.17.3-aarch64-linux-musl)
@@ -770,6 +772,8 @@ DEPENDENCIES
   devise-two-factor
   factory_bot_rails (~> 6.2, != 6.4.2, != 6.4.1, != 6.4.0, != 6.3.0)
   faker
+  faraday (~> 2.12)
+  faraday-retry (~> 2.2)
   foreman
   jbuilder
   jsbundling-rails

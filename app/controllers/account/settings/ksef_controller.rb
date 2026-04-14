@@ -19,6 +19,7 @@ class Account::Settings::KsefController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
+
   def test_token
     @ksef_setting = current_user.ksef_setting
 
@@ -30,29 +31,24 @@ class Account::Settings::KsefController < ApplicationController
       return
     end
 
-    if @ksef_setting.test_environment?
-      render json: { 
-        success: true, 
-        message: "✅ Token jest poprawny. Połączenie z środowiskiem testowym KSeF działa prawidłowo." 
-      }
-    else
-      render json: { 
-        success: false, 
-        message: "⚠️ Test w środowisku produkcyjnym nie jest jeszcze zaimplementowany." 
-      }
-    end
+    result = ksef_client.test_connection
+
+    render json: result
   rescue => e
-    Rails.logger.error "Test token error: #{e.message}"
+    Rails.logger.error "Test token error: #{e.message}\n#{e.backtrace.first(5).join("\n")}"
     render json: { 
       success: false, 
-      message: "Wystąpił błąd podczas testowania tokenu: #{e.message}" 
+      message: "Wystąpił nieoczekiwany błąd podczas testowania tokenu." 
     }, status: :internal_server_error
   end
 
   private
 
+  def ksef_client
+    @ksef_client ||= Ksef::Api::Client.new(@ksef_setting)
+  end
+
   def ksef_setting_params
     params.require(:ksef_setting).permit(:nip, :environment, :token)
   end
-
 end

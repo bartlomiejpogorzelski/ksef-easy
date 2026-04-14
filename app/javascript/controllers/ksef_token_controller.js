@@ -17,12 +17,12 @@ export default class extends Controller {
   async testToken() {
     // const button = this.element.querySelector('[data-action="click->ksef-token#testToken"]')
     const button = this.testButtonTarget;
-    if (!button) return
+    if (!button) return;
 
-    const originalText = button.textContent
+    const originalText = button.textContent;
 
-    button.disabled = true
-    button.textContent = "Testuję..."
+    button.disabled = true;
+    button.textContent = "Testuję...";
 
     try {
       const response = await fetch('/account/settings/ksef/test_token', {
@@ -32,21 +32,21 @@ export default class extends Controller {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         }
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (data.success) {
-        alert(data.message || "✅ Token jest poprawny!")
+        alert(data.message || "✅ Token jest poprawny i połączenie działa!");
       } else {
-        alert(data.message || "❌ Błąd podczas testowania tokenu")
+        alert(data.message || "❌ Token nie działa");
       }
     } catch (error) {
-      alert("Wystąpił błąd podczas łączenia z serwerem")
-      console.error(error)
+      alert("Wystąpił błąd podczas łączenia z serwerem");
+      console.error(error);
     } finally {
-      button.disabled = false
-      button.textContent = originalText
+      button.disabled = false;
+      button.textContent = originalText;
     }
   }
 

@@ -73,7 +73,9 @@ Rails.application.routes.draw do
           # 🚅 super scaffolding will insert new integration installations above this line.
         end
 
-        resources :invoices
+        resources :invoices do
+          post :send_to_ksef, on: :member
+        end
       end
       get   '/settings/ksef', to: 'settings/ksef#edit',   as: :ksef_settings
       patch '/settings/ksef', to: 'settings/ksef#update'
