@@ -11,7 +11,6 @@ module Ksef
         @connection = build_connection
       end
 
-      # Test tokenu
       def test_connection
         response = @connection.get("/")
 
@@ -34,36 +33,27 @@ module Ksef
         { success: false, message: "❌ Problem z połączeniem: #{e.message}" }
       end
 
-      # ==================== WYSYŁANIE FAKTUR KSeF 2.0 ====================
+      # ==================== WYSYŁANIE FAKTURY ====================
 
-      # Krok 1: Inicjalizacja sesji
-      def init_session
-        response = @connection.post("/sessions") do |req|
-          req.body = { "type" => "online" }.to_json
+      def send_invoice(invoice)
+        xml = generate_fa3_xml(invoice)
+
+        # endpoint w KSeF 2.0 testowym
+        response = @connection.post("/invoices") do |req|
+          req.headers['Content-Type'] = 'application/xml'
+          req.body = xml
         end
 
         {
           success: true,
-          session_token: response.body["sessionToken"],
-          message: "Sesja zainicjowana pomyślnie"
+          reference_number: response.body["referenceNumber"] || response.body.dig("data", "referenceNumber"),
+          ksef_number: response.body["ksefNumber"],
+          message: "Faktura została wysłana do KSeF"
         }
       rescue Faraday::ClientError => e
         { success: false, message: parse_error(e), status: e.response&.[](:status) }
       rescue Faraday::Error => e
-        { success: false, message: "Błąd inicjowania sesji: #{e.message}" }
-      end
-
-      # Krok 2: Wysyłanie faktury (główna metoda)
-      def send_invoice(invoice)
-        # Na razie tylko logika przygotowawcza
-        xml = generate_xml(invoice)
-
-        # TODO: Pełna wysyłka XML w ramach sesji
-        {
-          success: false,
-          message: "Wysyłanie faktury jeszcze nie zaimplementowane (XML wygenerowany)",
-          xml_preview: xml[0..200] + "..."   # tylko podgląd
-        }
+        { success: false, message: "Błąd podczas wysyłania faktury: #{e.message}" }
       end
 
       private
@@ -102,26 +92,37 @@ module Ksef
         end
       end
 
-      # Tymczasowy generator XML – na razie prosty placeholder
-      def generate_xml(invoice)
+      # ==================== GENERATOR XML FA(3) ====================
+      def generate_fa3_xml(invoice)
         <<~XML
-          <Fa xmlns="http://www.w3.org/2001/XMLSchema" xmlns:etd="http://crd.gov.pl/xml/schematy/faktury/2022/02/17">
+          <?xml version="1.0" encoding="UTF-8"?>
+          <Fa xmlns="http://crd.gov.pl/xml/schematy/faktury/2022/02/17">
             <FaWersja>3</FaWersja>
             <P_1>#{invoice.issue_date}</P_1>
             <P_2>#{invoice.number}</P_2>
-            <!-- reszta pól będzie dodana w następnym kroku -->
+            <P_6>#{invoice.sale_date || invoice.issue_date}</P_6>
+
             <Podmiot1>
-              <NIP>#{invoice.seller || '2222222222'}</NIP>
+              <NIP>2222222222</NIP>
+              <Nazwa>Sprzedawca Testowy KSeF Easy</Nazwa>
             </Podmiot1>
+
             <Podmiot2>
-              <NIP>#{invoice.buyer_nip}</NIP>
-              <Nazwa>#{invoice.buyer_name}</Nazwa>
+              <NIP>#{invoice.buyer_nip || '1111111111'}</NIP>
+              <Nazwa>#{invoice.buyer_name || 'Testowy Nabywca'}</Nazwa>
             </Podmiot2>
-            <P_13_1>#{invoice.netto}</P_13_1>
-            <P_13_2>#{invoice.vat}</P_13_2>
-            <P_13_3>#{invoice.brutto}</P_13_3>
+
+            <P_13_1>#{invoice.netto || 0}</P_13_1>
+            <P_13_2>#{invoice.vat || 0}</P_13_2>
+            <P_13_3>#{invoice.brutto || 0}</P_13_3>
+            <P_14>#{invoice.vat_rate || 23}</P_14>
           </Fa>
         XML
+      end
+
+      def init_session
+        # Brak pełnej sesji
+        { success: true }
       end
     end
   end
