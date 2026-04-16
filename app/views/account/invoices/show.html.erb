@@ -103,9 +103,23 @@
         <% end %>
 
         <% box.actions do %>
-          <%= link_to t('.buttons.edit'), [:edit, :account, @invoice], class: first_button_primary if can? :edit, @invoice %>
-          <%= button_to t('.buttons.destroy'), [:account, @invoice], method: :delete, class: first_button_primary, data: { turbo_confirm: t('.buttons.confirmations.destroy', model_locales(@invoice)) } if can? :destroy, @invoice %>
-          <%= link_to t('global.buttons.back'), [:account, @team, :invoices], class: first_button_primary %>
+          <% if @invoice.ksef_status_draft? || @invoice.ksef_status_error? %>
+            <%= button_to "Wyślij do KSeF",
+                          send_to_ksef_account_invoice_path(@invoice),
+                          method: :post,
+                          class: "btn btn-success",
+                          data: { 
+                            turbo_confirm: "Czy na pewno chcesz wysłać tę fakturę do Krajowego Systemu e-Faktur (KSeF)?" 
+                          } %>
+          <% end %>
+
+          <%= link_to t('.buttons.edit'), [:edit, :account, @invoice], class: "btn btn-primary" if can? :edit, @invoice %>
+          <%= button_to t('.buttons.destroy'), [:account, @invoice], 
+                        method: :delete, 
+                        class: "btn btn-danger",
+                        data: { turbo_confirm: t('.buttons.confirmations.destroy', model_locales(@invoice)) } if can? :destroy, @invoice %>
+
+          <%= link_to t('global.buttons.back'), [:account, @team, :invoices], class: "btn btn-secondary" %>
         <% end %>
 
         <% box.raw_footer do %>

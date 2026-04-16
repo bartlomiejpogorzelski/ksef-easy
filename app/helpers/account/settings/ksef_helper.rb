@@ -15,4 +15,10 @@ module Account::Settings::KsefHelper
   def ksef_production_mode?
     current_ksef_setting&.environment_production?
   end
+
+  def ksef_client
+    return nil unless current_user&.ksef_setting&.token_present?
+
+    @ksef_client ||= Ksef::Api::Client.new(current_user.ksef_setting)
+  end
 end

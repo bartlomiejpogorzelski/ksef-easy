@@ -59,6 +59,19 @@ class Account::InvoicesController < Account::ApplicationController
     end
   end
 
+  # POST /account/teams/:team_id/invoices/:id/send_to_ksef
+  def send_to_ksef
+    @invoice = current_team.invoices.find(params[:id])
+
+    if @invoice.send_to_ksef!
+            redirect_to account_invoice_path(@invoice),
+                  notice: "Faktura została pomyślnie wysłana do KSeF."
+    else
+      redirect_to account_invoice_path(@invoice),
+                  alert: "Nie udało się wysłać faktury do KSeF: #{@invoice.ksef_error_message || 'Nieznany błąd'}"
+    end
+  end
+  
   private
 
   if defined?(Api::V1::ApplicationController)
